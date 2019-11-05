@@ -36,12 +36,14 @@
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-            this.bunifuCheckbox1 = new Bunifu.Framework.UI.BunifuCheckbox();
             this.label6 = new System.Windows.Forms.Label();
             this.numericUpDown4 = new System.Windows.Forms.NumericUpDown();
             this.materialRaisedButton1 = new MetroFramework.Controls.MetroButton();
             this.label5 = new System.Windows.Forms.Label();
             this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
@@ -62,16 +64,19 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Nirmala UI", 22F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.label1.Location = new System.Drawing.Point(23, 42);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(620, 41);
             this.label1.TabIndex = 0;
             this.label1.Text = "Excited for creating your first neural network! ";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Nirmala UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.label2.Location = new System.Drawing.Point(26, 83);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(242, 19);
@@ -82,6 +87,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Nirmala UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.label3.Location = new System.Drawing.Point(53, 118);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(135, 25);
@@ -90,6 +96,8 @@
             // 
             // numericUpDown1
             // 
+            this.numericUpDown1.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.numericUpDown1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.numericUpDown1.Location = new System.Drawing.Point(77, 147);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             756,
@@ -105,7 +113,7 @@
             this.numericUpDown1.Size = new System.Drawing.Size(120, 20);
             this.numericUpDown1.TabIndex = 3;
             this.numericUpDown1.Value = new decimal(new int[] {
-            3,
+            2,
             0,
             0,
             0});
@@ -114,6 +122,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Nirmala UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.label4.Location = new System.Drawing.Point(279, 118);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(143, 25);
@@ -122,6 +131,8 @@
             // 
             // numericUpDown2
             // 
+            this.numericUpDown2.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.numericUpDown2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.numericUpDown2.Location = new System.Drawing.Point(302, 147);
             this.numericUpDown2.Maximum = new decimal(new int[] {
             200000,
@@ -137,28 +148,16 @@
             this.numericUpDown2.Size = new System.Drawing.Size(120, 20);
             this.numericUpDown2.TabIndex = 5;
             this.numericUpDown2.Value = new decimal(new int[] {
-            1000,
+            20000,
             0,
             0,
             0});
-            // 
-            // bunifuCheckbox1
-            // 
-            this.bunifuCheckbox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(205)))), ((int)(((byte)(117)))));
-            this.bunifuCheckbox1.ChechedOffColor = System.Drawing.Color.FromArgb(((int)(((byte)(132)))), ((int)(((byte)(135)))), ((int)(((byte)(140)))));
-            this.bunifuCheckbox1.Checked = true;
-            this.bunifuCheckbox1.CheckedOnColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(205)))), ((int)(((byte)(117)))));
-            this.bunifuCheckbox1.ForeColor = System.Drawing.Color.White;
-            this.bunifuCheckbox1.Location = new System.Drawing.Point(264, 123);
-            this.bunifuCheckbox1.Name = "bunifuCheckbox1";
-            this.bunifuCheckbox1.Size = new System.Drawing.Size(20, 20);
-            this.bunifuCheckbox1.TabIndex = 6;
-            this.bunifuCheckbox1.OnChange += new System.EventHandler(this.bunifuCheckbox1_OnChange);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Nirmala UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.label6.Location = new System.Drawing.Point(507, 123);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(147, 25);
@@ -167,6 +166,8 @@
             // 
             // numericUpDown4
             // 
+            this.numericUpDown4.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.numericUpDown4.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.numericUpDown4.Location = new System.Drawing.Point(531, 151);
             this.numericUpDown4.Name = "numericUpDown4";
             this.numericUpDown4.Size = new System.Drawing.Size(120, 20);
@@ -179,21 +180,19 @@
             // 
             // materialRaisedButton1
             // 
-          
-            this.materialRaisedButton1.Location = new System.Drawing.Point(500, 237);
-         
+            this.materialRaisedButton1.Location = new System.Drawing.Point(500, 290);
             this.materialRaisedButton1.Name = "materialRaisedButton1";
-      
             this.materialRaisedButton1.Size = new System.Drawing.Size(192, 46);
             this.materialRaisedButton1.TabIndex = 11;
             this.materialRaisedButton1.Text = "Create";
-            this.materialRaisedButton1.UseVisualStyleBackColor = true;
+            this.materialRaisedButton1.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.materialRaisedButton1.Click += new System.EventHandler(this.materialRaisedButton1_Click);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Nirmala UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.label5.Location = new System.Drawing.Point(53, 183);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(176, 25);
@@ -202,6 +201,8 @@
             // 
             // numericUpDown3
             // 
+            this.numericUpDown3.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.numericUpDown3.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.numericUpDown3.Location = new System.Drawing.Point(77, 221);
             this.numericUpDown3.Name = "numericUpDown3";
             this.numericUpDown3.Size = new System.Drawing.Size(120, 20);
@@ -212,24 +213,64 @@
             0,
             0});
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Nirmala UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label7.Location = new System.Drawing.Point(23, 21);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(151, 21);
+            this.label7.TabIndex = 14;
+            this.label7.Text = "By Rami\'s Algorithm";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Nirmala UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label8.Location = new System.Drawing.Point(279, 183);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(81, 25);
+            this.label8.TabIndex = 15;
+            this.label8.Text = "5, Name";
+            // 
+            // textBox1
+            // 
+            this.textBox1.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.textBox1.Location = new System.Drawing.Point(302, 216);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(237, 29);
+            this.textBox1.TabIndex = 16;
+            this.textBox1.Text = "My neural network";
+            // 
             // Form1
             // 
-            this.ClientSize = new System.Drawing.Size(715, 306);
+            this.ClientSize = new System.Drawing.Size(715, 352);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.numericUpDown3);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.materialRaisedButton1);
             this.Controls.Add(this.numericUpDown4);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.bunifuCheckbox1);
             this.Controls.Add(this.numericUpDown2);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.numericUpDown1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Form1";
             this.Resizable = false;
             this.ShadowType = MetroFramework.Forms.MetroForm.MetroFormShadowType.DropShadow;
+            this.Style = MetroFramework.MetroColorStyle.White;
+            this.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.Load += new System.EventHandler(this.Form1_Load_1);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
@@ -245,16 +286,19 @@
         private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+       
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.NumericUpDown numericUpDown2;
-        private Bunifu.Framework.UI.BunifuCheckbox bunifuCheckbox1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.NumericUpDown numericUpDown4;
         private MetroFramework.Controls.MetroButton materialRaisedButton1;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.NumericUpDown numericUpDown3;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 

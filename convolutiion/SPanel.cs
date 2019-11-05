@@ -21,6 +21,16 @@ namespace convolutiion
             InitializeComponent();
             onprint = printed;
             nodraw = undraw;
+            this.DoubleBuffered = true;
+            this.SetStyle(ControlStyles.UserPaint |
+                          ControlStyles.AllPaintingInWmPaint |
+                          ControlStyles.ResizeRedraw |
+                          ControlStyles.ContainerControl |
+                          ControlStyles.OptimizedDoubleBuffer |
+                          ControlStyles.SupportsTransparentBackColor
+                          , true);
+            this.UpdateStyles();
+            BackColor = Color.Transparent;
             if (network)
             {
                 this.Click += (df,dff)=>{
@@ -35,6 +45,15 @@ namespace convolutiion
                     }
                 
                 };
+            }
+        }
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle = cp.ExStyle | 0x20;
+                return cp;
             }
         }
         private Color _blc = Color.Black;

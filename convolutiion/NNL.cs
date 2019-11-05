@@ -13,8 +13,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using AwesomeShapeControl;
+
 using convolutiion.Properties;
+using NeuronDotNet.Core.Backpropagation;
 
 namespace convolutiion
 {
@@ -27,30 +28,54 @@ namespace convolutiion
         int layno = 0;
         Matrix<Double> syn0;
         Matrix<Double> syn1;
-        Matrix<Double> inp;
-        Matrix<Double> outpt;
-        public NNL(decimal inp, decimal epch, decimal outp,int layers)
+        drfrm dfrm = null;
+       List<Double[]> inp = new List<double[]>();
+       List<Double[]> outpt = new List<double[]>();
+        public NNL(decimal inp, decimal epch, decimal outp,int layers,string name)
         {
+         
             layno = layers;
             epc = (int)epch;
             npu = (int)inp;
             opt = (int)outp;
-          
-            InitializeComponent();
-            label6.Text += ((int)epch).ToString();
 
+            InitializeComponent(); Text = name; Refresh();
+            label6.Text += ((int)epch).ToString();
+            valf =acti.Sigmoid;
             for (int i = 0; i < layers; i++)
             {
                 this.layers.Add(4);
             }
             comboBox1.SelectedIndex = 0;
+            comboBox2.SelectedIndex = 3;
             shrit();
+            metroButton2.Click += (gd, gh) => {
+                PictureBox pic = new PictureBox();
+                drraw = true;
+            
+                tabPage2.Controls.Add(pic);  
+                pic.Location = listBox1.Location;
+              
+                pic.Size = listBox1.Size;
+                pic.BringToFront();
+                mtrfrm mtf = new mtrfrm(this.inp,this.outpt);
+              if(mtf.ShowDialog()== DialogResult.OK)
+                {
+  pic.Image = mtf.img;
+                materialRaisedButton1.Visible = false;
+                rawin = mtf.inp;
+                rawout = mtf.outp;   repopulatedata();
+                }
+              
 
+
+            };
+            comboBox1.Items.Clear();
+            comboBox1.DataSource = Enum.GetValues(typeof(acti));
         }
+     
+     public   NeuronDotNet.Core.Backpropagation.BackpropagationNetwork netamp;
 
-        Accord.Neuro.Learning.ResilientBackpropagationLearning learner;
-
-        Accord.Neuro.ActivationNetwork activ;
         Microsoft.VisualBasic.PowerPacks.ShapeContainer shp = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
         List<int> layers = new List<int>();
         public void shrit(bool all = true)
@@ -61,19 +86,69 @@ foreach (var item in layers)
     referee.Add(item);
 }
 referee.Add(opt);
+              LinearLayer inputLayer = new LinearLayer(npu);
+      
+              ActivationLayer last = null;
+              for (int i = 0; i < layers.Count; i++)
+              {
 
-activ = new Accord.Neuro.ActivationNetwork(new Accord.Neuro.ActivationFunctions.GaussianFunction(), npu, referee.ToArray());
-       
+                  ActivationLayer hiddenLayer = null;
+                  switch (valf)
+	{
+		case acti.Sigmoid:
+                           hiddenLayer = new SigmoidLayer(layers[0]);
+ break;
+case acti.tanh:
+ hiddenLayer = new TanhLayer(layers[0]);
+ break;
+case acti.Logarith:
+                           hiddenLayer = new LogarithmLayer(layers[0]);
+ break;
+case acti.Sine:
+                           hiddenLayer = new SineLayer(layers[0]);
+ break;
+case acti.Linear:
+                           hiddenLayer = new LinearLayer(layers[0]);
+ break;
+default:
+ break;
+	}
+                  if (last == null)
+                  {
+                      new BackpropagationConnector(inputLayer, hiddenLayer);
+                  }
+                  else
+                  {
+                      new BackpropagationConnector(last, hiddenLayer);
+                  }
+
+                  last = hiddenLayer;
+              }
+              ActivationLayer outputLayer = new SigmoidLayer(opt);
+              if (last != null)
+              {
+                  new BackpropagationConnector(last, outputLayer);
+              }
+              else
+              {
+                  new BackpropagationConnector(inputLayer,outputLayer);
+              }
+           
+              netamp = new BackpropagationNetwork(inputLayer, outputLayer);
+         
+          
         
-            activ.Randomize();
-
-            learner = new Accord.Neuro.Learning.ResilientBackpropagationLearning(activ);
-            activ.SetActivationFunction(new Accord.Neuro.ActivationFunctions.GaussianFunction());
+             
+     
           }
+        Type curfun = typeof(NeuronDotNet.Core.Backpropagation.SigmoidLayer);
         TableLayoutPanel flay = null;
-        TableLayoutPanel llay = null;
-
-        List<Line> slmp = new List<Line>();
+        TableLayoutPanel llay = null;   public acti valf;
+        public enum acti
+        {
+            Sigmoid=0, tanh=1,Logarith=2,Sine=3,Linear=4
+        }
+     
         Object[] generatemage(int inputlength,int[] hly,int output){
             Bitmap bmp = new Bitmap(516, 425);
             Graphics grph = Graphics.FromImage(bmp);
@@ -168,54 +243,107 @@ activ = new Accord.Neuro.ActivationNetwork(new Accord.Neuro.ActivationFunctions.
    
     grph.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
     grph.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-    int wlay = 1;
+   
             int lay0 =0;
-    foreach (List<double[]> weightlayer in weights)
+         
+
+                List<List<double[]>> rev = weights;
+
+                foreach (object[][] item in rec)
+                {
+                    if (lay0 == 0)
+                    {
+                        lay0 += 1;
+                        continue;
+                    }
+                    int nrn = 0;
+                    foreach (object[] neuron in item)
+                    {
+                        #region f's
+  bool fcon =(bool) neuron[0];
+                        Rectangle floc =(Rectangle) neuron[1];
+                        Color bcl = Color.White;
+                        try
+                        {
+                            bcl = (Color)neuron[2];
+                        }
+                        catch (Exception)
+                        {
+
+                        }
+                        Point fmc = floc.Location;
+                        fmc.X += floc.Width /2;
+                        fmc.Y += floc.Height /2;
+                     
+                        #endregion
+                        if (fcon == false)
+                        {
+                            continue;
+                        }
+#region back layer iteration
+
+                        object[][] blayer = (object[][]) rec[lay0 - 1];
+                        int bneu = 0;
+                        foreach (object[] beu in blayer)
+                        {
+                            bool bneuron = (bool)beu[0];
+                            if (bneuron == false)
+                            {
+                                continue;
+                            }
+                            Rectangle brec = (Rectangle)beu[1];
+                            Point bmc = brec.Location;
+                            bmc.X += brec.Width / 2;
+                            bmc.Y += brec.Height / 2;
+                            Color fcol = Color.White;
+                            try
+                            {
+                                fcol = (Color)beu[2];
+                            }
+                            catch (Exception)
+                            {
+                                
+                            }
+                            fcol = Color.FromArgb(255,(byte)( fcol.R - 20),(byte)( fcol.G - 20),(byte)( fcol.B - 20));
+                            float flt = float.Parse(getweight(lay0,nrn,bneu).ToString())*3;
+                            if (flt > 4f)
+                            {
+                                flt = 4f;
+                            }
+                            grph.DrawLine(new Pen(new System.Drawing.Drawing2D.LinearGradientBrush(fmc, bmc, fcol, bcl),flt ), fmc, bmc);
+                
+                            bneu += 1;
+                        }
+#endregion
+                        nrn += 1;
+                    }
+                    lay0 += 1;
+                }
+       
+    
+    foreach (object[][] item in rec)
     {
-        int cneu = 0;
-        foreach (var neuron in weightlayer)
+        foreach (object[] neuron in item)
         {
-      
-            Rectangle relo = ((Rectangle)((object[])rec[wlay][cneu])[1]);
-            Color mthr =Color.Black;
+            bool intg =(bool) neuron[0];
+            Color blc = Color.Black;
             try
             {
-mthr = ((Color)((object[])rec[wlay][cneu])[2]);
+                blc = (Color)neuron[2];
             }
             catch (Exception)
             {
                 
-            
+               
             }
-           
-            Point rel = ((Rectangle)((object[])rec[wlay][cneu])[1]).Location;
-            rel.Y += relo.Height / 2;
-            rel.X += relo.Width / 2;
-            int cweight = 0;
-            foreach (var item in neuron)
+            Rectangle recb = (Rectangle)neuron[1];
+            if (intg == true)
             {
-                Rectangle tool = ((Rectangle)((object[])rec[lay0][cweight])[1]);
-                Color father = Color.Black;
-                try
-                {father = ((Color)((object[])rec[lay0][cneu])[2]);
-
-                }
-                catch (Exception)
-                {
-                    
-            
-                } 
-                Point to = ((Rectangle)((object[])rec[lay0][cweight])[1]).Location;
-                to.Y += tool.Height / 2;
-                to.X += tool.Width / 2;
-                grph.DrawLine(new Pen(new System.Drawing.Drawing2D.LinearGradientBrush(to,rel,father,mthr),0.6f+(float)item*2), to, rel);
-                   cweight += 1;
-           
+                grph.FillRoundedRectangle(new Pen(blc).Brush, recb.X,recb.Y,recb.Width,recb.Height,90);
             }
-            cneu += 1;
-         }
-       
-        wlay += 1; lay0 = wlay - 1;
+
+        }
+
     }
             return new Object[] {bmp,rec };
         }
@@ -224,6 +352,19 @@ mthr = ((Color)((object[])rec[wlay][cneu])[2]);
    
        List<double> losses = new List<double>();
        int jtgo = 1;
+       double getweight(int layer,int neuron,int whc)
+       {
+           try
+           {
+    return  weights[layer][neuron][whc];
+           }
+           catch (Exception)
+           {
+
+               return 0.01f;   
+           }
+     
+       }
        public void shlose(double inpt)
        {
            Invoke(new vdcal(() => { cartesianChart1.AxisX[0].Labels.Add(jtgo.ToString());
@@ -233,8 +374,20 @@ mthr = ((Color)((object[])rec[wlay][cneu])[2]);
           
            jtgo += 1;
        }
+        bool drraw = false;
         private void NNL_Load(object sender, EventArgs e)
         {
+            listBox1.BackColor = BackColor;
+            netamp.JitterNoiseLimit = (double)numericUpDown1.Value;
+            if (npu == 2)
+            {
+  if (opt == 1)
+            {
+                metroButton2.Visible = true;
+                materialRaisedButton6.Size = new Size(274, 39);
+            }
+            }
+          
             materialRaisedButton3_Click(null,null);
             
             materialTabControl1.SelectedIndex = 0;
@@ -268,11 +421,15 @@ mthr = ((Color)((object[])rec[wlay][cneu])[2]);
             object[] dta = generatemage(npu, layers.ToArray(), opt);
             pictureBox1.Image = ((Bitmap)dta[0]);
             pictureBox1.Tag = dta[1];
+          
         }
-      
+        public double test(double[] net)
+        {
+            return netamp.Run(net)[0];
+        }
         int datam = 0;
         delegate void vdcal();
-        void run(){
+         void run(){
             if (datam <= 1)
             {
                 MessageBox.Show("No available data to train the model");
@@ -283,122 +440,178 @@ mthr = ((Color)((object[])rec[wlay][cneu])[2]);
             {
 
             }
+          
             if (epc <= 0)
-            {  bunifuProgressBar1.Maximum_Value = 5;
-                bunifuProgressBar1.Value = 5;
+            {
+
+
+                metroProgressBar1.Value = 5;
                 runm();
             }
             else
             {
-           bunifuProgressBar1.Maximum_Value = epc;
+                metroProgressBar1.Maximum = epc;
            
             runm();
             }
  
     }
+        public void shim(){
+            try
+            {
+      dfrm.shw(netamp);
+            }
+            catch (Exception)
+            {
+
+            
+            }
+      
+        }
       
         List<List<Double[]>> weights = new List<List<double[]>>();
         Thread calcthread;
+        
         #region not neeeded
-private void runm()
+private unsafe void runm()
         {
+            try
+            {
+                dfrm.Close();
+                dfrm.Dispose();
+            }
+            catch (Exception)
+            {
+
+
+            }
+            if (drraw)
+            {
+                dfrm = new drfrm(rawin, rawout);
+                dfrm.Show();
+            }
             materialRaisedButton2.Hide();
             materialRaisedButton5.Show();
+            try
+            {
+       netamp.EndEpochEvent -= netamp_EndEpochEvent;
+            }
+            catch (Exception)
+            {
+                
+           
+            }
+     
+            netamp.EndEpochEvent += netamp_EndEpochEvent;
             calcthread = new Thread(new ThreadStart(() => {
-                if (epc <= 0)
-                {int re = 0; int rek = 0; int definete = 0;
-                    while (true)
-                    {
 
-                        rawin.ToArray();
-                        rawout.ToArray();
-                   double rn = learner.RunEpoch(inp.ToColumnArrays(), outpt.ToColumnArrays());
-              
-                        if (re > 200)
-                        {
-                            materialLabel1.Invoke(new vdcal(() =>
-                            {
-                                materialLabel1.Text = "Epoch :" + definete.ToString() + " , Loss :" + rn.ToString();
 
-                            })); shlose(rn);
-                            re = 0;
-                        }
-                        definete += 1;
-                        if (rek > 50)
-                        {
-                            rek = 0;
-                           weights.Clear();
-                            foreach (var item in activ.Layers)
-                            { List<Double[]> dbl = new List<Double[]>();
-                            foreach (var neur in item.Neurons)
-                            {
-                                dbl.Add(neur.Weights);
-                            }
-weights.Add(dbl);
-                            }
-                            updatevis();
-                        }
-                        re += 1;
-                        rek += 1;
-Thread.Sleep(2);
-                    }
-                }
-                else
-                {
-                    int re = 0;
-                    int ret = 0;
-                    int rek = 0;
-                    for (int i = 0; i < epc; i++)
-                    {
+                re = 0;
+                ret = 0;
+                prog = 0;
+                rek = 0;
+                    runepch(epc);
+                
 
-                        double rn = learner.RunEpoch(inp.ToColumnArrays(), outpt.ToColumnArrays());
-                        if (re > 100)
-                        {
-shlose(rn);
-                            re = 0;
-                        }
-                        if (rek > 50)
-                        {
-                            rek = 0;
-                             weights.Clear();
-                            foreach (var item in activ.Layers)
-                            { List<Double[]> dbl = new List<Double[]>();
-                            foreach (var neur in item.Neurons)
-                            {
-                                dbl.Add(neur.Weights);
-                            }
-weights.Add(dbl);
-                            }
-                            updatevis();
-                        }
-                        rek += 1; re += 1;
-                        materialLabel1.Invoke(new vdcal(() => {
-                            materialLabel1.Text = "Epoch :" + bunifuProgressBar1.Value.ToString() + " , Loss :" + rn.ToString();
-               
-                        }));
-                    
-Invoke(new vdcal(() => { bunifuProgressBar1.Value += 1; }));
-Thread.Sleep(2);
-                  }
+                  
                     //for amount
-                }
+                
                 Invoke(new vdcal(() => {      stop();}));
            
             }));
             calcthread.Start();
             label8.Text = "The Model is still running";
         }
+int re = 0;
+int ret = 0;
+int prog = 0;
+int rek = 0;
+unsafe void netamp_EndEpochEvent(object sender, NeuronDotNet.Core.TrainingEpochEventArgs e)
+{
+    double rn = netamp.MeanSquaredError;
+
+    if (re > 1000)
+    {
+        shlose(rn);
+        re = 0;
+    }
+    if (rek > 50)
+    {
+        rek = 0;
+        
+        shim();
+        Invoke(new vdcal(() => { metroProgressBar1.Value = prog; })); 
+        materialLabel1.Invoke(new vdcal(() =>
+        {
+            materialLabel1.Text = "Epoch :" + metroProgressBar1.Value.ToString() + " , Loss :" + rn.ToString();
+
+        }));
+        weights.Clear(); 
+        foreach (var item in netamp.Layers)
+        {
+            List<Double[]> dbl = new List<Double[]>();
+            foreach (var neur in item.Neurons)
+            {
+                List<double> dblh = new List<double>();
+                foreach (var nerspan in neur.TargetSynapses)
+                {
+                    dblh.Add(nerspan.Weight);
+                }
+                dbl.Add(dblh.ToArray());
+            }
+            weights.Add(dbl);
+        }
+        updatevis();
+    }
+    rek += 1; re += 1;
+
+    prog += 1;
+}
         private void stop()
         {      success();
-       
+        try
+        {
+            dfrm.Close();
+            dfrm.Dispose();
+        }
+        catch (Exception)
+        {
+
+
+        }
             cartesianChart1.Series.Clear();
             cartesianChart1.AxisX.Clear();
             cartesianChart1.AxisY.Clear();
-            NNL_Load(null, null);
-            bunifuProgressBar1.Value = 0;
+
+            cartesianChart1.Series = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Title = "Loss",
+                    Values = new ChartValues<double> {}
+                }
+            };
+            cartesianChart1.AxisX.Add(new Axis
+            {
+                Title = "per Steps",
+                Labels = new List<string>()
+            });
+            cartesianChart1.AxisY.Add(new Axis
+            {
+                Title = "Loss",
+
+            });
+   
+            object[] dta = generatemage(npu, layers.ToArray(), opt);
+            pictureBox1.Image = ((Bitmap)dta[0]);
+            pictureBox1.Tag = dta[1];
+            shlose(0);
+
+            metroProgressBar1.Value = 0;
             try
             {
-    calcthread.Abort();
+ 
+    netamp.StopLearning();   calcthread.Abort();
             }
             catch (Exception)
             {
@@ -409,11 +622,16 @@ Thread.Sleep(2);
          }
         private void success()
         {
-            materialRaisedButton3_Click(null,null);
-            bunifuProgressBar1.Value = 0;
-            materialTabControl1.SelectedTab = tabPage3;
+
+            metroProgressBar1.Value = 0;
+         
+        materialTabControl1.SelectedIndex = 2;
+             
+            
+
+         
             label8.Text = "Click the button to predict";
-            bunifuCards1.Visible = true;
+            panel1.Visible = true;
           
             materialRaisedButton2.Show();
                   materialRaisedButton5.Hide();
@@ -422,25 +640,10 @@ Thread.Sleep(2);
      private void repopulatedata()
         {
             listBox1.Items.Clear();
-            for (int im = 0; im < rawin.Count; im++)
-            {
-                datam += 1;
-              inp = Matrix<Double>.Build.Random(npu, im+1);
-            outpt = Matrix<Double>.Build.Random(opt, im+1);
-            for (int i = 0; i < rawin[im].Count(); i++)
-            {
-                inp[i, im] = rawin[im][i];
-            }
-            for (int i = 0; i < rawout[im].Count(); i++)
-            {
-                outpt[i, im] = rawout[im][i];
-            }
-       
-            }
-
+             datam = rawout.Count;
             if (rawin.Count < 1)
             {
-
+            
             }
             else
             {
@@ -466,10 +669,23 @@ Thread.Sleep(2);
                 }
             }
         }
+        public void runepch(int cf){
+NeuronDotNet.Core.TrainingSet train = new NeuronDotNet.Core.TrainingSet(npu,opt);
+            int ind  = 0;
+foreach (var item in rawin)
+	{
+		    train.Add(new NeuronDotNet.Core.TrainingSample(item,rawout[ind]));
+            ind += 1;
+	}
+             
+
+netamp.Learn(train,cf);
+        }
         private void materialRaisedButton2_Click(object sender, EventArgs e)
      {
-    
-            run();}
+        
+        run();
+           }
 List<Double[]> rawin = new List<double[]>();
         List<Double[]> rawout = new List<double[]>();
 private void materialRaisedButton1_Click(object sender, EventArgs e)
@@ -489,6 +705,7 @@ private void materialRaisedButton1_Click(object sender, EventArgs e)
 
         private void materialRaisedButton5_Click(object sender, EventArgs e)
         {
+        
             stop();
         }
 
@@ -530,28 +747,37 @@ private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
             {
-                switch (comboBox1.SelectedIndex)
+
+                valf = (acti)comboBox1.SelectedIndex;
+                try
                 {
-                    case 0:
-                        activ.SetActivationFunction(new Accord.Neuro.SigmoidFunction());
-                        break;
-                    case 1:
-                        activ.SetActivationFunction(new Accord.Neuro.RectifiedLinearFunction());
-                        break;
-                    case 2:
-                        activ.SetActivationFunction(new Accord.Neuro.ActivationFunctions.BernoulliFunction());
-                        break;
-                    case 3:
-                        activ.SetActivationFunction(new Accord.Neuro.ActivationFunctions.GaussianFunction());
-                        break;
-                    default:
-                        break;
+                    if (calcthread.IsAlive == true)
+                    {
+                        calcthread.Abort();
+                        shrit();
+                        materialRaisedButton2_Click(null, null);
+                    }
+                    else
+                    {
+                        shrit();
+                      
+                    }
                 }
+                catch (Exception)
+                {
+
+                    shrit();
+                 
+                }
+           
+
+
             }
+
             catch (Exception)
             {
-                
-            
+
+
             }
            
         }
@@ -560,15 +786,20 @@ private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
 #region not needed 2
 private void materialRaisedButton3_Click(object sender, EventArgs e)
         {
-            activ.Randomize();
+        
          
             weights.Clear();
-            foreach (var item in activ.Layers)
+            foreach (var item in netamp.Layers)
             {
                 List<Double[]> dbl = new List<Double[]>();
                 foreach (var neur in item.Neurons)
                 {
-                    dbl.Add(neur.Weights);
+                    List<double> dblh = new List<double>();
+                    foreach (var nerspan in neur.SourceSynapses)
+                    {
+                        dblh.Add(nerspan.Weight);
+                    }
+                    dbl.Add(dblh.ToArray());
                 }
 
                 weights.Add(dbl);
@@ -586,23 +817,29 @@ private void materialRaisedButton3_Click(object sender, EventArgs e)
               
 
             
-                foreach (var item in     activ.Compute(sfrm.inp))
+                foreach (var item in netamp.Run(sfrm.inp))
                 {
                       Label lab = new Label();
                 lab.BackColor = Color.Black;
                 lab.ForeColor = Color.White;
                 lab.Text = item.ToString();
+                lab.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+
                 flowLayoutPanel1.Controls.Add(lab);
                 }
-                bunifuCards1.Size = new Size(435, 250);
+                MetroFramework.Animation.ExpandAnimation expanim = new MetroFramework.Animation.ExpandAnimation();
+                expanim.Start(panel1,new Size(435, 270),MetroFramework.Animation.TransitionType.EaseInOutCubic,13);
+        
             } 
         
         }
 
         private void materialRaisedButton7_Click(object sender, EventArgs e)
         {
-            bunifuCards1.Size = new Size(435, 119);
-         
+        
+            MetroFramework.Animation.ExpandAnimation expanim = new MetroFramework.Animation.ExpandAnimation();
+            expanim.Start(panel1, new Size(445, 134), MetroFramework.Animation.TransitionType.EaseInOutCubic, 13);
+        
         }
 
    
@@ -624,17 +861,22 @@ private void materialRaisedButton3_Click(object sender, EventArgs e)
                         if (layers[layer] == 1)
                         {
                             layers.RemoveAt(layer);
+                           
+        
                         }
                         else
                         {
                             layers[layer] -= 1;
-
+                         
+        
                         }
 
                     }
                     else
                     {
                         layers[layer] += 1;
+                     
+        
                     }
                 }
                 else
@@ -644,11 +886,35 @@ private void materialRaisedButton3_Click(object sender, EventArgs e)
             }
             else
             {
-                layers.Add(4);
+                layers.Add(4);shrit();
+             
+                
+        
+        
+              
             }
-         
-           
-            shrit(); materialRaisedButton3_Click(null, null);
+
+
+            try
+            {
+                if (calcthread.IsAlive == true)
+                {
+                    calcthread.Abort();
+                    shrit();
+                    materialRaisedButton2_Click(null, null);
+                }
+                else
+                {
+                    shrit();
+
+                }
+            }
+            catch (Exception)
+            {
+
+                shrit();
+
+            }
             object[] dta = generatemage(npu, layers.ToArray(), opt);
             pictureBox1.Image = ((Bitmap)dta[0]);
             pictureBox1.Tag = dta[1];
@@ -701,6 +967,94 @@ private void materialRaisedButton3_Click(object sender, EventArgs e)
                 }
                 lay += 1;
             }
+        }
+
+        private void metroButton1_Click(object sender, EventArgs e)
+        {
+            test2d frm = new test2d(netamp);
+            frm.ShowDialog();
+        }
+   
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+     
+        }
+
+        private void comboBox2_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+
+       double dbl = double.Parse(((string)comboBox2.Items[comboBox2.SelectedIndex]));
+       netamp.SetLearningRate(dbl);
+
+           
+        }
+
+        private void metroButton3_Click(object sender, EventArgs e)
+        {
+        
+            OpenFileDialog opf = new OpenFileDialog();
+            opf.Filter = "CSV FILES(csv)|*.csv";
+         
+            if (opf.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    foreach (String item in System.IO.File.ReadLines(opf.FileName))
+                    {
+                        String[] str = item.Split(",".ToCharArray());
+                        double[] inps = new double[str.Length];
+                        double[] ops = new double[str.Length];
+                        if(str.Length - opt != npu ){
+                            throw new Exception();
+                        }
+                         
+                        int inf = 0;
+                        foreach (string dbl in str)
+                        { double db = double.Parse(dbl);
+                            
+                            if (inf >= npu - 1)
+                            {
+                                try
+                                {
+                                    ops[inf - npu] = db;
+                                }
+                                catch (Exception)
+                                {
+
+                                    ops[inf - npu + 1] = db;
+                                }
+                                continue;
+                            }
+                            inps[inf] = db;
+                            inf += 1;
+                        }
+                        rawin.Add(inps);
+                        rawout.Add(ops);
+                        repopulatedata();
+                    }
+                }
+                catch (Exception)
+                {
+                 
+                    MessageBox.Show("please use a compitable CSV format without a column names and like "+
+                        "|1.0,6.7,0");
+                }
+            }
+        }
+
+        private void tabPage2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            netamp.JitterNoiseLimit = (double)numericUpDown1.Value;
+        }
+
+        private void metroButton2_Click(object sender, EventArgs e)
+        {
+        
         }
 
     }

@@ -42,6 +42,7 @@
             this.materialRaisedButton1.Size = new System.Drawing.Size(124, 48);
             this.materialRaisedButton1.TabIndex = 0;
             this.materialRaisedButton1.Text = "Add Data";
+            this.materialRaisedButton1.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.materialRaisedButton1.Click += new System.EventHandler(this.materialRaisedButton1_Click);
             // 
             // flowLayoutPanel1
@@ -84,15 +85,18 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BorderStyle = MetroFramework.Drawing.MetroBorderStyle.FixedSingle;
             this.ClientSize = new System.Drawing.Size(333, 428);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.flowLayoutPanel2);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.materialRaisedButton1);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "dataform";
             this.Resizable = false;
-            this.ShadowType = MetroFramework.Forms.MetroForm.MetroFormShadowType.DropShadow;
+            this.Style = MetroFramework.MetroColorStyle.White;
             this.Text = "Input Data";
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.Load += new System.EventHandler(this.dataform_Load);

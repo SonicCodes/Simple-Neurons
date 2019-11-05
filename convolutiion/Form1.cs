@@ -37,22 +37,19 @@ namespace convolutiion
         private void materialRaisedButton1_Click(object sender, EventArgs e)
         {
             Hide();
-  NNL nnl = new NNL(numericUpDown1.Value,numericUpDown2.Value,numericUpDown4.Value,(int)numericUpDown3.Value);
+  NNL nnl = new NNL(numericUpDown1.Value,numericUpDown2.Value,numericUpDown4.Value,(int)numericUpDown3.Value,textBox1.Text);
             nnl.ShowDialog();
             Show();
         }
-
+       
         private void bunifuCheckbox1_OnChange(object sender, EventArgs e)
         {
-            if (bunifuCheckbox1.Checked == false)
-            {
-                numericUpDown2.Value = 0;
-                numericUpDown2.Enabled = false;
-            }
-            else
-            {
-                numericUpDown2.Enabled = true;
-            }
+         
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -34,37 +34,26 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Accord">
-      <HintPath>..\..\..\..\..\Downloads\past\accord-neuro-classification-(ann)\Binaries\x86\Accord.dll</HintPath>
-    </Reference>
-    <Reference Include="Accord.Controls">
-      <HintPath>..\..\..\..\..\Downloads\past\accord-neuro-classification-(ann)\Binaries\x86\Accord.Controls.dll</HintPath>
-    </Reference>
-    <Reference Include="Accord.Genetic">
-      <HintPath>..\..\..\..\..\Downloads\past\accord-neuro-classification-(ann)\Binaries\x86\Accord.Genetic.dll</HintPath>
-    </Reference>
-    <Reference Include="Accord.IO">
-      <HintPath>..\..\..\..\..\Downloads\past\accord-neuro-classification-(ann)\Binaries\x86\Accord.IO.dll</HintPath>
-    </Reference>
-    <Reference Include="Accord.MachineLearning">
-      <HintPath>..\..\..\..\..\Downloads\past\accord-neuro-classification-(ann)\Binaries\x86\Accord.MachineLearning.dll</HintPath>
-    </Reference>
-    <Reference Include="Accord.Math">
-      <HintPath>..\..\..\..\..\Downloads\past\accord-neuro-classification-(ann)\Binaries\x86\Accord.Math.dll</HintPath>
-    </Reference>
-    <Reference Include="Accord.Math.Core">
-      <HintPath>..\..\..\..\..\Downloads\past\accord-neuro-classification-(ann)\Binaries\x86\Accord.Math.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Accord.Neuro">
-      <HintPath>..\..\..\..\..\Downloads\past\accord-neuro-classification-(ann)\Binaries\x86\Accord.Neuro.dll</HintPath>
-    </Reference>
-    <Reference Include="Accord.Statistics">
-      <HintPath>..\..\..\..\..\Downloads\past\accord-neuro-classification-(ann)\Binaries\x86\Accord.Statistics.dll</HintPath>
-    </Reference>
-    <Reference Include="AwesomeShapeControl">
-      <HintPath>..\..\..\..\..\AppData\Local\Temp\Rar$DRa17080.41625\AwesomeShapeControl\AwesomeShapeControl\bin\Debug\AwesomeShapeControl.dll</HintPath>
-    </Reference>
     <Reference Include="Bunifu.Core, Version=1.11.5.1, Culture=neutral, PublicKeyToken=e8e24ccd28363fe9, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\..\Downloads\Bunifu.Core.dll</HintPath>
     </Reference>
@@ -114,10 +103,6 @@
       <HintPath>..\packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MaterialSkin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MaterialSkin.0.2.1\lib\MaterialSkin.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="MathNet.Numerics, Version=4.9.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MathNet.Numerics.4.9.0\lib\net40\MathNet.Numerics.dll</HintPath>
       <Private>True</Private>
@@ -135,6 +120,9 @@
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="NeuronDotNet.Core">
+      <HintPath>..\..\..\..\..\Downloads\past\accord-audio-fourier-(fft) (1)\NeuronDotNet.Core.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -195,6 +183,12 @@
     <Compile Include="dataform.Designer.cs">
       <DependentUpon>dataform.cs</DependentUpon>
     </Compile>
+    <Compile Include="drfrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="drfrm.Designer.cs">
+      <DependentUpon>drfrm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -202,6 +196,13 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="grph.cs" />
+    <Compile Include="HeatMap.cs" />
+    <Compile Include="mtrfrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="mtrfrm.Designer.cs">
+      <DependentUpon>mtrfrm.cs</DependentUpon>
+    </Compile>
     <Compile Include="NNL.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -216,11 +217,23 @@
     <Compile Include="SPanel.Designer.cs">
       <DependentUpon>SPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="test2d.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="test2d.Designer.cs">
+      <DependentUpon>test2d.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="dataform.resx">
       <DependentUpon>dataform.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="drfrm.resx">
+      <DependentUpon>drfrm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="mtrfrm.resx">
+      <DependentUpon>mtrfrm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NNL.resx">
       <DependentUpon>NNL.cs</DependentUpon>
@@ -237,6 +250,9 @@
     </Compile>
     <EmbeddedResource Include="SPanel.resx">
       <DependentUpon>SPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="test2d.resx">
+      <DependentUpon>test2d.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

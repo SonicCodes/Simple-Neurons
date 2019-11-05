@@ -32,7 +32,7 @@ namespace convolutiion
                 NumericUpDown upd = new NumericUpDown();  
                 TrackBar track = new TrackBar();
                 track.Width = upd.Width;
-                upd.Maximum = 1;
+                upd.Maximum = 100;
                 upd.Minimum = -1;
                 upd.DecimalPlaces = 3;
                 flowLayoutPanel1.Controls.Add(upd);
@@ -43,7 +43,7 @@ namespace convolutiion
                 NumericUpDown upd = new NumericUpDown();
                 TrackBar track = new TrackBar();
                 track.Width = upd.Width;
-                upd.Maximum = 1;
+                upd.Maximum = 100;
                 upd.Minimum = -1;
                 upd.DecimalPlaces = 3;
                 flowLayoutPanel2.Controls.Add(upd);
